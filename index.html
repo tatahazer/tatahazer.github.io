@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Share Location</title>
+</head>
+<body>
+
+<h2>Click to Share Location</h2>
+<button onclick="sendData()">Share</button>
+
+<p id="msg"></p>
+
+<script>
+function sendData() {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      fetch("/collect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        })
+      });
+
+      document.getElementById("msg").innerText =
+        "Data sent successfully.";
+    },
+    () => {
+      document.getElementById("msg").innerText =
+        "Permission denied.";
+    }
+  );
+}
+</script>
+
+</body>
+</html>
