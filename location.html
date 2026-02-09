@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Location Access</title>
+</head>
+<body>
+
+<h2>Share Your Location</h2>
+<button onclick="getLocation()">Allow Location</button>
+<p id="result"></p>
+
+<script>
+function getLocation() {
+  if (!navigator.geolocation) {
+    document.getElementById("result").innerText =
+      "Geolocation not supported.";
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      document.getElementById("result").innerHTML =
+        "Latitude: " + pos.coords.latitude +
+        "<br>Longitude: " + pos.coords.longitude;
+    },
+    () => {
+      document.getElementById("result").innerText =
+        "Location permission denied.";
+    }
+  );
+}
+</script>
+
+</body>
+</html>
